@@ -1,7 +1,7 @@
 <template>
   <v-card class="wpsResponse" min-width="600" max-height="600">
     <v-toolbar dense flat>
-      <v-toolbar-title>{{ "Transect plot"}}</v-toolbar-title>
+      <v-toolbar-title>{{ "Time-series plot"}}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn @click="closeFeature" icon>
         <v-icon>mdi-close</v-icon>
@@ -59,6 +59,7 @@ export default {
         this.loading = true;
         this.wpsResponse = await transectRepo.getTransect(this.requestData);
         this.loading = false;
+        console.log( transectRepo.getTransect(this.requestData))
         if (this.wpsResponse[0].url == 'No data available for this area.'){
           this.no_data = true;
         }

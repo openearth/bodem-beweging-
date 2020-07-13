@@ -18,6 +18,7 @@ const transectRepo = {
     return baseRepo({
       method: 'post',
       data: template,
+      timeout:10000,
       headers: {'Content-Type': 'application/xml'},
 
     })
@@ -29,6 +30,7 @@ const transectRepo = {
 };
 function formatDataIntoLinks(data) {
   // 🐏
+  // console.log(data)
   const formatLink = feature => {
   const url = path([],feature);
     return {
