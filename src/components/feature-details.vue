@@ -68,7 +68,7 @@ export default {
 
   computed: {
     htmlPlots() {
-      console.log("html plots", this.featureDetails)
+      // console.log("html plots", this.featureDetails)
       var result = this.featureDetails.filter(function (el) {
 
         return el.id &&

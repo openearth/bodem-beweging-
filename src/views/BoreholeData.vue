@@ -49,7 +49,6 @@ export default {
   methods: {
     async addLayer(layer) {
       const wfsLayer = buildWfsLayer(layer);
-      console.log(wfsLayer)
       this.$store.commit('mapbox/ADD_GEOJSON_LAYER', wfsLayer);
       // this.$store.commit('mapbox/ADD_RASTER_LAYER', wmsLayer);
     },

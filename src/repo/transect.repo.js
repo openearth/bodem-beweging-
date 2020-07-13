@@ -18,7 +18,7 @@ const transectRepo = {
     return baseRepo({
       method: 'post',
       data: template,
-      timeout:10000,
+      timeout:50000,
       headers: {'Content-Type': 'application/xml'},
 
     })

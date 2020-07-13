@@ -25,9 +25,7 @@ const featureDetailsRepo = {
 
 function formatDataIntoLinks(data) {
   // 🐏
-  console.log("ne moaa", data);
   const formatLink = feature => {
-    console.log("formatDataIntoLinks", feature)
     const id = path(['ows:Identifier', '_text'], feature);
     const url = path(['wps:Data', 'wps:ComplexData', '_cdata'], feature);
     return {
