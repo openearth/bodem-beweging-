@@ -27,11 +27,14 @@
         <v-tab :to="{ name: 'Borehole data' }">
           {{first_tab}}
         </v-tab>
-        <v-tab :to="{ name: 'Timeseries data' }">
+        <v-tab :to="{ name: 'Groundwater data' }">
           {{second_tab}}
         </v-tab>
-        <v-tab :to="{ name: 'Static data' }">
+        <v-tab :to="{ name: 'Timeseries data' }">
           {{third_tab}}
+        </v-tab>
+        <v-tab :to="{ name: 'Static data' }">
+          {{fourth_tab}}
         </v-tab>
       </v-tabs>
     </v-app-bar>
@@ -65,7 +68,7 @@ import MapboxMap from '@/components/mapbox-map';
 import FeatureDetails from '@/components/feature-details';
 import requestData from '@/components/transect-popup';
 import RiskLegend from '@/components/legend';
-import { app_name,intro_tab,tab1_name,tab2_name, tab3_name } from "../../../config/datalayers-config.js";
+import { app_name,intro_tab,tab1_name,tab2_name, tab3_name, tab4_name } from "../../../config/datalayers-config.js";
 
 export default {
   data: () => ({
@@ -98,6 +101,9 @@ export default {
     },
     third_tab () {
       return tab3_name;
+    },
+    fourth_tab () {
+      return tab4_name;
     },
     activeFeature() {
       return this.$store.getters['mapbox/activeFeature'];

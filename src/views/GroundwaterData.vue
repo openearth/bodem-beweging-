@@ -3,8 +3,9 @@
     <v-card-title>
       {{tabname}}
     </v-card-title>
-      <v-card-text>The current section provides some static data related to subsidence.
-      </v-card-text>
+    <v-card-text>
+      This section provides subusrface information based on boreholes.
+    </v-card-text>
     <v-sheet class="pa-5">
     <v-treeview
       selectable
@@ -14,47 +15,54 @@
       on-icon='mdi-checkbox-multiple-marked-circle'
       off-icon = 'mdi-circle-outline'
       color="blue"
-      dense
       :items="items"
       v-model="visibleLayers"
     ></v-treeview>
     </v-sheet>
-
   </div>
 </template>
 
 <script>
 import arrayDiff from '@/lib/get-arrays-difference';
-import { formatIdToLabel } from '@/lib/format-id-to-label';
-import buildWmsLayer from '@/lib/build-wms-layer';
-import { tab4_name, items_tab4 } from "../../config/datalayers-config.js";
+import formatIdToLabel from '@/lib/format-id-to-label';
+import buildWfsLayer from '@/lib/build-wfs-layer';
+import { tab2_name, items_tab2 } from "../../config/datalayers-config.js";
 
 export default {
   data: () => ({
+    items: items_tab2,
     visibleLayers: [],
-    items: items_tab4,
   }),
-  computed:{
+
+  computed: {
     tabname() {
-      return tab4_name;
-  }},
+      return tab2_name;
+    },
+    // rasterLayers() {
+    //   return this.$store.getters['mapbox/rasterLayers'];
+    // },
+    //  legendLayer() {
+    //   return this.$store.getters['mapbox/legendLayer'];
+    // }
+  },
 
   methods: {
-    addLayer(layer) {
-      const wmsLayer = buildWmsLayer(layer);
-      this.$store.commit('mapbox/ADD_RASTER_LAYER', wmsLayer);
-
+    async addLayer(layer) {
+      const wfsLayer = buildWfsLayer(layer);
+      this.$store.commit('mapbox/ADD_GEOJSON_LAYER', wfsLayer);
+      // this.$store.commit('mapbox/ADD_RASTER_LAYER', wmsLayer);
     },
 
     removeLayer(layerId) {
-      this.$store.commit('mapbox/REMOVE_RASTER_LAYER', layerId);
+      // this.$store.commit('mapbox/REMOVE_RASTER_LAYER', layerId);
+      this.$store.commit('mapbox/REMOVE_GEOJSON_LAYER', layerId);
 
     },
 
     formatIdToLabel(id) {
       return formatIdToLabel(id);
     }
-   },
+  },
 
   watch: {
     visibleLayers(newArray, oldArray) {
@@ -62,7 +70,7 @@ export default {
       if(removeLayerId) {
         const layerToRemoveId = arrayDiff(oldArray, newArray)[0];
         this.removeLayer(layerToRemoveId);
-        this.$store.commit('mapbox/SET_LEGEND_LAYER', null);
+        // this.$store.commit('mapbox/SET_LEGEND_LAYER', null);
       }
       else {
         const layerToAddId = arrayDiff(newArray, oldArray)[0];
@@ -77,9 +85,10 @@ export default {
         }
         // const layerToAdd = layers_to_show.find(({ id }) => id === layerToAddId);
         this.addLayer(layerToAdd);
-        this.$store.commit('mapbox/SET_LEGEND_LAYER', layerToAdd.layer);
+        // this.$store.commit('mapbox/SET_LEGEND_LAYER', layerToAdd.layer);
       }
     }
+
   }
 };
 </script>

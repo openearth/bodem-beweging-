@@ -33,7 +33,7 @@
 import arrayDiff from '@/lib/get-arrays-difference';
 import formatIdToLabel from '@/lib/format-id-to-label';
 import buildWmsLayer from '@/lib/build-wms-layer';
-import { tab2_name, items_tab2 } from "../../config/datalayers-config.js";
+import { tab3_name, items_tab2 } from "../../config/datalayers-config.js";
 
 const DELTARES_BLUE = '#008fc5';
 const SOURCE_NAME = 'draw-geojson';
@@ -43,7 +43,7 @@ const MAX_POINTS = 2;
 
 export default {
   data: () => ({
-    items: items_tab2,
+    // items: items_tab2,
     visibleLayers: [],
     isDrawing: false,
     geojson: {
@@ -62,7 +62,7 @@ export default {
 
   computed: {
     tabname() {
-      return tab2_name;
+      return tab3_name;
     },
 
     hasFullyDrawnLine() {

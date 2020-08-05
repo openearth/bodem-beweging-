@@ -2,8 +2,9 @@
 const app_name = "Bodembeweging";
 const intro_tab = "Introduction";
 const tab1_name = "Borehole data";
-const tab2_name = "Timeseries data";
-const tab3_name = "Static data";
+const tab2_name = "Groundwater data";
+const tab3_name = "Timeseries data";
+const tab4_name = "Static data";
 
 const items_tab1 = [
   {
@@ -16,6 +17,16 @@ const items_tab1 = [
 ];
 
 const items_tab2 = [
+  {
+    id: 1,
+    name:'Groundwater locations',
+    children:[
+      { id: 'groundwater', name: 'Groundwater locations' , layer: 'bodem:groundwater_locations'},
+    ]
+  }
+];
+
+const items_tab4 = [
   {
     id: 1,
     name: 'Leaf Area Index',
@@ -33,26 +44,20 @@ const items_tab2 = [
       { id: 'LAI00000_12', name:'LAI00000 12', layer: 'rhine:LAI00000_12' },
     ],
   },
-  {
-    id: 2,
-    name:'Water bodies',
-    children:[
-      { id: 'lakes', name: 'Lakes' , layer: 'rhine:lakes'},
-      { id: 'rivers', name: 'Rivers',layer: 'rhine:rivers'},
-      { id: 'reservoirs', name: 'Reservoirs',layer: 'rhine:reservoirs'},
-
-    ]
-  },
-  {
-    id: 3,
-    name:'General info',
-    children:[
-      { id: 'dem', name: 'Digital elevation model' , layer: 'rhine:dem'},
-      { id: 'landuse', name: 'Land use',layer: 'rhine:landuse'},
-      { id: 'rootingdepth', name: 'Roothing depth',layer: 'rhine:rootingdepth'},
-
-    ]
-  }
 ];
 
-export { app_name, intro_tab, tab1_name, tab2_name, tab3_name, items_tab1, items_tab2 };
+
+// WPS configurations
+
+// This dictionary defines which layer has corresponding WPS service: LayerId : WpsId
+const wpsDict = {
+  'boreholes': 'bodembore_plots',
+  'groundwater': 'bodem_gw_plots'
+};
+// This dictionary defines the relevant location attribute per layer or the attribute used for the WPS call
+const locDict = {
+  'boreholes': 'locationkey',
+  'groundwater' : 'name'
+};
+
+export { app_name, intro_tab, tab1_name, tab2_name, tab3_name, tab4_name, items_tab1, items_tab2, items_tab4, wpsDict, locDict};

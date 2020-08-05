@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import store from '@/store';
 
 import BoreholeData from '@/views/BoreholeData';
+import GroundwaterData from '@/views/GroundwaterData';
 import Timeseries from '@/views/Timeseries';
 import StaticData from '@/views/StaticData';
 import Intro from '@/views/Intro';
@@ -23,6 +24,11 @@ const routes = [
     path: '/boreholedata',
     name: 'Borehole data',
     component: BoreholeData
+  },
+  {
+    path: '/groundwaterdata',
+    name: 'Groundwater data',
+    component: GroundwaterData
   },
   {
     path: '/timeseriesdata',

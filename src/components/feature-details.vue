@@ -49,6 +49,7 @@
 <script>
 
 import featureDetailsRepo from '@/repo/feature-details.repo';
+import { wpsDict, locDict } from "../../config/datalayers-config.js";
 
 export default {
   props: {
@@ -61,14 +62,12 @@ export default {
   data: () => ({
     featureDetails: [],
     hasLoaded: false,
-    wpsDictionary: {
-      'boreholes': 'bodembore_plots',
-    }
+    wpsDictionary: wpsDict,
+    locidDict: locDict
   }),
 
   computed: {
     htmlPlots() {
-      // console.log("html plots", this.featureDetails)
       var result = this.featureDetails.filter(function (el) {
 
         return el.id &&
@@ -86,10 +85,11 @@ export default {
     },
 
     async fetchDetails() {
-      const { locationkey, layerId } = this.feature;
+      const { layerId } = this.feature;
+      const locid = this.locidDict[layerId]
       const wpsIdentifier = this.wpsDictionary[layerId];
       try {
-        this.featureDetails = await featureDetailsRepo.getReport(wpsIdentifier, locationkey);
+        this.featureDetails = await featureDetailsRepo.getReport(wpsIdentifier, this.feature.layer[locid]);
         this.hasLoaded = true;
       }
       catch(err) {
