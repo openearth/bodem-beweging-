@@ -131,8 +131,8 @@ export default {
   .feature-details__iframe {
     display: block;
     border: 0;
-    width: 400px;
-    height: 530px;
+    width: 600px;
+    height: 520px;
 
   }
 </style>

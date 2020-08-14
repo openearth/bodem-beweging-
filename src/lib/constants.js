@@ -19,3 +19,4 @@ export const MAP_BASELAYERS = [
 }));
 
 export const MAP_BASELAYER_DEFAULT = MAP_BASELAYERS[0];
+export const MAP_BASELAYER_DEFAULT2 = MAP_BASELAYERS[1];

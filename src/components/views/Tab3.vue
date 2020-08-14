@@ -3,11 +3,23 @@
     <v-card-title>
       {{tabname}}
     </v-card-title>
-    <v-card-text>
-      This section provides timeseries data related to the subsurface.
-    </v-card-text>
+
     <v-sheet class="pa-5">
-    </v-sheet>
+    <v-treeview
+      selectable
+      rounded
+      hoverable
+      transition
+      on-icon='mdi-checkbox-multiple-marked-circle'
+      off-icon = 'mdi-circle-outline'
+      color="blue"
+      :items="items"
+      v-model="visibleLayers"
+    ></v-treeview>
+
+    <v-card-text>
+     Radarsatellietmetingen (InSAR)
+    </v-card-text>
     <v-sheet class="pa-5">
       <v-btn
         @click="toggleDrawLine"
@@ -24,6 +36,7 @@
       </v-btn>
       <!-- <pre>{{ linestring }}</pre> -->
     </v-sheet>
+    </v-sheet>
 
 
   </div>
@@ -32,8 +45,9 @@
 <script>
 import arrayDiff from '@/lib/get-arrays-difference';
 import formatIdToLabel from '@/lib/format-id-to-label';
-import buildWmsLayer from '@/lib/build-wms-layer';
-import { tab3_name, items_tab2 } from "../../config/datalayers-config.js";
+import buildWfsLayer from '@/lib/build-wfs-layer';
+import { tab3_name,items_tab3 } from "../../../config/datalayers-config";
+// import buildWfsLayer from '@/lib/build-wfs-layer';
 
 const DELTARES_BLUE = '#008fc5';
 const SOURCE_NAME = 'draw-geojson';
@@ -43,7 +57,7 @@ const MAX_POINTS = 2;
 
 export default {
   data: () => ({
-    // items: items_tab2,
+    items: items_tab3,
     visibleLayers: [],
     isDrawing: false,
     geojson: {
@@ -78,13 +92,13 @@ export default {
 
   methods: {
     addLayer(layer) {
-      const wmsLayer = buildWmsLayer(layer);
-      this.$store.commit('mapbox/ADD_RASTER_LAYER', wmsLayer);
+      const wfsLayer = buildWfsLayer(layer);
+      this.$store.commit('mapbox/ADD_GEOJSON_LAYER', wfsLayer);
 
     },
 
     removeLayer(layerId) {
-      this.$store.commit('mapbox/REMOVE_RASTER_LAYER', layerId);
+      this.$store.commit('mapbox/REMOVE_GEOJSON_LAYER', layerId);
 
     },
 
@@ -304,7 +318,7 @@ buildLine() {
       if(removeLayerId) {
         const layerToRemoveId = arrayDiff(oldArray, newArray)[0];
         this.removeLayer(layerToRemoveId);
-        this.$store.commit('mapbox/SET_LEGEND_LAYER', null);
+        // this.$store.commit('mapbox/SET_LEGEND_LAYER', null);
       }
       else {
         const layerToAddId = arrayDiff(newArray, oldArray)[0];
@@ -319,7 +333,7 @@ buildLine() {
         }
         // const layerToAdd = layers_to_show.find(({ id }) => id === layerToAddId);
         this.addLayer(layerToAdd);
-        this.$store.commit('mapbox/SET_LEGEND_LAYER', layerToAdd.layer);
+        // this.$store.commit('mapbox/SET_LEGEND_LAYER', layerToAdd.layer);
       }
     }
 

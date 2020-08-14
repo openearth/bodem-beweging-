@@ -22,19 +22,13 @@
         v-model="selectedTab"
       >
         <v-tab :to="{ name: 'intro' }" >
-          {{intro}}
+          {{tab1}}
         </v-tab>
-        <v-tab :to="{ name: 'Borehole data' }">
-          {{first_tab}}
+        <v-tab :to="{ name: 'inzichten' }">
+          {{tab2}}
         </v-tab>
-        <v-tab :to="{ name: 'Groundwater data' }">
-          {{second_tab}}
-        </v-tab>
-        <v-tab :to="{ name: 'Timeseries data' }">
-          {{third_tab}}
-        </v-tab>
-        <v-tab :to="{ name: 'Static data' }">
-          {{fourth_tab}}
+        <v-tab :to="{ name: 'data' }">
+          {{tab3}}
         </v-tab>
       </v-tabs>
     </v-app-bar>
@@ -45,6 +39,7 @@
         :legendLayer="legendLayer"
       />
       <mapbox-map />
+      <!-- <mapcontainer/> -->
       <feature-details
         v-if="!!activeFeature"
         :feature="activeFeature"
@@ -61,14 +56,14 @@
 </template>
 
 <script>
-// import json_config from '@/config'
 import Sidebar from './sidebar';
 import MapboxMap from '@/components/mapbox-map';
+// import mapcontainer from  '@/components/mapbox-map/map-slider'
 // import WelcomeDialog from './welcome-dialog';
 import FeatureDetails from '@/components/feature-details';
 import requestData from '@/components/transect-popup';
 import RiskLegend from '@/components/legend';
-import { app_name,intro_tab,tab1_name,tab2_name, tab3_name, tab4_name } from "../../../config/datalayers-config.js";
+import { app_name,tab1_name,tab2_name, tab3_name } from "../../../config/datalayers-config.js";
 
 export default {
   data: () => ({
@@ -79,10 +74,11 @@ export default {
   components: {
     Sidebar,
     MapboxMap,
-    // WelcomeDialog,
     FeatureDetails,
     requestData,
-    RiskLegend
+    RiskLegend,
+    // WelcomeDialog,
+    // mapcontainer
 
   },
 
@@ -90,20 +86,14 @@ export default {
     appname () {
       return app_name;
     },
-    intro () {
-      return intro_tab;
-    },
-    first_tab () {
+    tab1 () {
       return tab1_name;
     },
-    second_tab () {
+    tab2 () {
       return tab2_name;
     },
-    third_tab () {
+    tab3 () {
       return tab3_name;
-    },
-    fourth_tab () {
-      return tab4_name;
     },
     activeFeature() {
       return this.$store.getters['mapbox/activeFeature'];

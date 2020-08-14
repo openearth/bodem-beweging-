@@ -2,11 +2,14 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '@/store';
 
-import BoreholeData from '@/views/BoreholeData';
-import GroundwaterData from '@/views/GroundwaterData';
-import Timeseries from '@/views/Timeseries';
-import StaticData from '@/views/StaticData';
-import Intro from '@/views/Intro';
+// import BoreholeData from '@/views/BoreholeData';
+// import GroundwaterData from '@/views/GroundwaterData';
+// import Timeseries from '@/views/Timeseries';
+// import StaticData from '@/views/StaticData';
+// import Intro from '@/views/Intro';
+import Tab1 from '../components/views/Tab1';
+import Tab2 from '../components/views/Tab2';
+import Tab3 from '../components/views/Tab3';
 
 Vue.use(VueRouter);
 
@@ -18,29 +21,18 @@ const routes = [
   {
     path: '/intro',
     name: 'intro',
-    component: Intro
+    component: Tab1
   },
   {
-    path: '/boreholedata',
-    name: 'Borehole data',
-    component: BoreholeData
+    path: '/inzichten',
+    name: 'inzichten',
+    component: Tab2
   },
   {
-    path: '/groundwaterdata',
-    name: 'Groundwater data',
-    component: GroundwaterData
-  },
-  {
-    path: '/timeseriesdata',
-    name: 'Timeseries data',
-    component: Timeseries
-  },
-  {
-    path: '/staticdata',
-    name: 'Static data',
-    component: StaticData
-  },
-
+    path: '/data',
+    name: 'data',
+    component: Tab3
+  }
 ];
 
 const router = new VueRouter({

@@ -3,9 +3,9 @@
     clipped
     app
     permanent
-    width="360"
+    width="450"
   >
-    <v-row dense>
+    <v-row>
       <v-col :cols="12">
         <router-view />
       </v-col>
