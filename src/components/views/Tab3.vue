@@ -3,7 +3,8 @@
     <v-card-title>
       {{tabname}}
     </v-card-title>
-
+    <v-card-text>!Hint: Select a menu to explore data.</v-card-text>
+<!--
     <v-sheet class="pa-5">
     <v-treeview
       selectable
@@ -16,27 +17,94 @@
       :items="items"
       v-model="visibleLayers"
     ></v-treeview>
+     -->
+    <v-expansion-panels>
+     <v-expansion-panel>
+        <v-expansion-panel-header>{{this.items[0].name}}</v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <div>Tip: Select a point on the map to get plot.</div>
+            <v-switch :multiple="false"
+              v-for="layer in items[0].children"
+              :key="layer.id"
+              :label="layer.name"
+              :value="layer.id"
+              v-model="visibleLayers"
+              inset
+              hide-details
+              />
+         </v-expansion-panel-content>
+      </v-expansion-panel>
 
-    <v-card-text>
-     Radarsatellietmetingen (InSAR)
-    </v-card-text>
-    <v-sheet class="pa-5">
-      <v-btn
-        @click="toggleDrawLine"
-        :disabled="isDrawing"
-        class="mr-4"
-      >
-        {{ hasFullyDrawnLine ? 'Re-d' : 'D' }}raw point
-      </v-btn>
-      <v-btn
-        @click="getSection"
-        :disabled="!hasFullyDrawnLine"
-      >
-        Get plot
-      </v-btn>
-      <!-- <pre>{{ linestring }}</pre> -->
-    </v-sheet>
-    </v-sheet>
+     <v-expansion-panel>
+        <v-expansion-panel-header>{{this.items[1].name}}</v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <div>Tip: Select a point on the map to get plot.</div>
+            <!-- <v-switch v-model="visibleLayers" class="mx-10" :label="items[0].children[0].name" :value="items[0].children[0]"></v-switch> -->
+            <v-switch :multiple="false"
+              v-for="layer in items[1].children"
+              :key="layer.id"
+              :label="layer.name"
+              :value="layer.id"
+              v-model="visibleLayers"
+              inset
+              hide-details
+              />
+         </v-expansion-panel-content>
+      </v-expansion-panel>
+
+     <v-expansion-panel>
+        <v-expansion-panel-header>{{this.items[2].name}}</v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <div>Tip: Draw a point on the map to get a plot.</div>
+            <!-- <v-switch v-model="visibleLayers" class="mx-10" :label="items[0].children[0].name" :value="items[0].children[0]"></v-switch> -->
+            <v-switch :multiple="false"
+              v-for="layer in items[2].children"
+              :key="layer.id"
+              :label="layer.name"
+              :value="layer.id"
+              v-model="visibleLayers"
+              inset
+              hide-details
+              />
+              <v-card-text>
+              Radarsatellietmetingen (InSAR)
+              </v-card-text>
+              <v-sheet class="pa-5">
+                <v-btn
+                  @click="toggleDrawLine"
+                  :disabled="isDrawing"
+                  class="mr-4"
+                >
+                  {{ hasFullyDrawnLine ? 'Re-d' : 'D' }}raw point
+                </v-btn>
+                <v-btn
+                  @click="getSection"
+                  :disabled="!hasFullyDrawnLine"
+                >
+                  Get plot
+                </v-btn>
+                <!-- <pre>{{ linestring }}</pre> -->
+              </v-sheet>
+         </v-expansion-panel-content>
+      </v-expansion-panel>
+
+     <v-expansion-panel>
+        <v-expansion-panel-header>{{this.items[3].name}}</v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <div>Tip: Select a point on the map to get a plot.</div>
+            <!-- <v-switch v-model="visibleLayers" class="mx-10" :label="items[0].children[0].name" :value="items[0].children[0]"></v-switch> -->
+            <v-switch :multiple="false"
+              v-for="layer in items[3].children"
+              :key="layer.id"
+              :label="layer.name"
+              :value="layer.id"
+              v-model="visibleLayers"
+              inset
+              hide-details
+              />
+         </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
 
 
   </div>
@@ -46,10 +114,11 @@
 import arrayDiff from '@/lib/get-arrays-difference';
 import formatIdToLabel from '@/lib/format-id-to-label';
 import buildWfsLayer from '@/lib/build-wfs-layer';
+import buildWmsLayer from '@/lib/build-wms-layer';
 import { tab3_name,items_tab3 } from "../../../config/datalayers-config";
-// import buildWfsLayer from '@/lib/build-wfs-layer';
 
-const DELTARES_BLUE = '#008fc5';
+
+const DELTARES_BLUE = '#000000';
 const SOURCE_NAME = 'draw-geojson';
 const POINTS_LAYER_ID = 'draw-points';
 const LINES_LAYER_ID = 'draw-lines';
@@ -81,25 +150,30 @@ export default {
 
     hasFullyDrawnLine() {
       return this.geojson.features.length == MAX_POINTS;
+    },
+    rasterLayers() {
+      return this.$store.getters['mapbox/rasterLayers'];
+    },
+     legendLayer() {
+      return this.$store.getters['mapbox/legendLayer'];
     }
-    // rasterLayers() {
-    //   return this.$store.getters['mapbox/rasterLayers'];
-    // },
-    //  legendLayer() {
-    //   return this.$store.getters['mapbox/legendLayer'];
-    // }
   },
 
   methods: {
     addLayer(layer) {
-      const wfsLayer = buildWfsLayer(layer);
-      this.$store.commit('mapbox/ADD_GEOJSON_LAYER', wfsLayer);
+      if (layer.type == "wfs") {
+        const wfsLayer = buildWfsLayer(layer);
+        this.$store.commit('mapbox/ADD_GEOJSON_LAYER', wfsLayer);
+      } else {
+        const wmsLayer = buildWmsLayer(layer);
+        this.$store.commit('mapbox/ADD_RASTER_LAYER', wmsLayer);
+      }
 
     },
 
     removeLayer(layerId) {
       this.$store.commit('mapbox/REMOVE_GEOJSON_LAYER', layerId);
-
+      this.$store.commit('mapbox/REMOVE_RASTER_LAYER', layerId);
     },
 
     formatIdToLabel(id) {
@@ -314,14 +388,18 @@ buildLine() {
 
   watch: {
     visibleLayers(newArray, oldArray) {
-      const removeLayerId = newArray.length < oldArray.length;
-      if(removeLayerId) {
-        const layerToRemoveId = arrayDiff(oldArray, newArray)[0];
-        this.removeLayer(layerToRemoveId);
+      // const removeLayerId = newArray !== oldArray;
+      if(!newArray) {
+        this.$store.commit('mapbox/REMOVE_ALL_LAYERS');
+        this.$store.commit('mapbox/SET_LEGEND_LAYER', null);
+        // const layerToRemoveId = arrayDiff(oldArray, newArray)[0];
+        // this.removeLayer(layerToRemoveId);
+        // // remove legend
         // this.$store.commit('mapbox/SET_LEGEND_LAYER', null);
       }
-      else {
-        const layerToAddId = arrayDiff(newArray, oldArray)[0];
+      if (newArray) {
+        const layerToAddId = newArray;
+        // const layerToAddId = arrayDiff(newArray, oldArray)[0];
         var layerToAdd;
         for (var i=0; i < this.items.length; i++) {
           var child = this.items[i].children;
@@ -331,9 +409,14 @@ buildLine() {
             }
           }
         }
-        // const layerToAdd = layers_to_show.find(({ id }) => id === layerToAddId);
+        // const layerToAdd = this.items.children.find(({ id }) => id === newArray);
+        // console.log("linee 365",layerToAdd)
         this.addLayer(layerToAdd);
-        // this.$store.commit('mapbox/SET_LEGEND_LAYER', layerToAdd.layer);
+        // add legend
+        if (layerToAdd.type == "wms") {
+          this.$store.commit('mapbox/SET_LEGEND_LAYER', layerToAdd.layer);
+        }
+
       }
     }
 

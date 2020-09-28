@@ -10,14 +10,28 @@ const items_tab3 = [
     id: 1,
     name:'Ondergrond opbouw',
     children:[
-      { id: 'boreholes', name: 'Boringen' , layer: 'bodem:borehole_locations'},
+      { id: 'boreholes', name: 'Boringen' , layer: 'bodem:borehole_locations', type:"wfs"},
     ]
   },
   {
     id: 2,
     name:'Grondwater',
     children:[
-      { id: 'groundwater', name: 'Wareco portal data' , layer: 'bodem:groundwater_locations'},
+      { id: 'groundwater', name: 'Wareco portal data' , layer: 'bodem:groundwater_locations', type:"wfs"},
+    ]
+  },
+  {
+    id: 3,
+    name:'Hoogte',
+    children:[
+      { id: 'Radarsatellietmetingen (InSAR)', name: 'Radarsatellietmetingen (InSAR)' , layer: 'bodem:lineartiteit2013', type:"wms"},
+    ]
+  },
+  {
+    id: 4,
+    name:'Ondergrond eigenschappen',
+    children:[
+      {},
     ]
   }
 

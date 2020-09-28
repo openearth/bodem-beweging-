@@ -36,7 +36,7 @@ export default {
     border: 0;
     border-radius: 4px;
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-    z-index: 1;
+    z-index:1;
   }
   .layer-legend__image {
     justify-content: flex-start;

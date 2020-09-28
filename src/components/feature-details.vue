@@ -2,6 +2,8 @@
   <v-card
     class="feature-details"
     min-width="400"
+    elevation="7"
+    hover
   >
     <v-toolbar dense flat>
       <v-toolbar-title>
@@ -26,6 +28,7 @@
         <!-- HTML Plots -->
         <template v-if="htmlPlots.length">
           <div
+
             v-for="plot in htmlPlots"
             :key="plot.url"
             class="feature-details__column"
@@ -33,7 +36,7 @@
             <iframe
               class="feature-details__iframe"
               :src="plot.url"
-            />
+            />Tip: Hover over the graph for more details.
           </div>
         </template>
 
@@ -79,6 +82,7 @@ export default {
     },
   },
 
+
   methods: {
     closeFeature() {
       this.$store.commit('mapbox/SET_ACTIVE_FEATURE', null);
@@ -112,16 +116,20 @@ export default {
 </script>
 
 <style>
+.v-card{
+
+z-index: 2;
+}
   .feature-details {
     position: absolute;
     bottom: 2rem;
     left: .5rem;
+
   }
 
   .feature-details__column img {
     display: block;
-    max-width: 1000px;
-    max-height: 800px;
+
   }
 
   .feature-details__column:not(:last-child) {
@@ -129,9 +137,9 @@ export default {
   }
 
   .feature-details__iframe {
-    display: block;
+    display:flex;
     border: 0;
-    width: 600px;
+    width: 810px;
     height: 520px;
 
   }

@@ -3,7 +3,7 @@
     clipped
     app
     permanent
-    width="450"
+    width="500"
   >
     <v-row>
       <v-col :cols="12">

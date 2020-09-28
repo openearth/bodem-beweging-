@@ -22,10 +22,10 @@ export default ({ url=defaultUrl, id, layer }) => {
     },
     type:'circle',
     layout: {},
-    paint: {
-      'circle-radius': 5,
-      "circle-opacity" : 0.7,
-      'circle-color': '#54b04a'
-    }
+    // paint: {
+    //   'circle-radius': 5,
+    //   "circle-opacity" : 0.7,
+    //   'circle-color':  '#bbe73f'
+    // }
   };
 };

@@ -4,7 +4,7 @@ export default layer => buildGeoserverUrl({
   request: 'GetLegendGraphic',
   service: 'WMS',
   format: 'image/png',
-  width: 20,
+  width: 15,
   height: 20,
   layer
 });
